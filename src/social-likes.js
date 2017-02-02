@@ -521,23 +521,21 @@
 
 		click: function(e) {
 			var options = this.options;
-			var deferred = $.Deferred();
-			deferred.done($.proxy(function(){
-					var url = makeUrl(options.popupUrl, {
-						url: options.url,
-						title: options.title,
-					});
-					url = this.addAdditionalParamsToUrl(url);
-					this.openPopup(url, {
-						width: options.popupWidth,
-						height: options.popupHeight,
-					});
-			},this));
+			var process = true;
 			if ($.isFunction(options.click)) {
-				options.click.call(this, e, deferred);
-			}else
-				deferred.resolve();
-			return false;
+				process = options.click.call(this, e);
+			}
+			if (process) {
+				var url = makeUrl(options.popupUrl, {
+					url: options.url,
+					title: options.title,
+				});
+				url = this.addAdditionalParamsToUrl(url);
+				this.openPopup(url, {
+					width: options.popupWidth,
+					height: options.popupHeight,
+				});
+			}
 		},
 
 		addAdditionalParamsToUrl: function(url) {
