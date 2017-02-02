@@ -521,21 +521,22 @@
 
 		click: function(e) {
 			var options = this.options;
-			var process = true;
+			var deferred = $.Deferred();
+			deferred.done($.proxy(function(){
+					var url = makeUrl(options.popupUrl, {
+						url: options.url,
+						title: options.title,
+					});
+					url = this.addAdditionalParamsToUrl(url);
+					this.openPopup(url, {
+						width: options.popupWidth,
+						height: options.popupHeight,
+					});
+			},this));
 			if ($.isFunction(options.click)) {
-				process = options.click.call(this, e);
-			}
-			if (process) {
-				var url = makeUrl(options.popupUrl, {
-					url: options.url,
-					title: options.title,
-				});
-				url = this.addAdditionalParamsToUrl(url);
-				this.openPopup(url, {
-					width: options.popupWidth,
-					height: options.popupHeight,
-				});
-			}
+				options.click.call(this, e, deferred);
+			}else
+				deferred.resolve();
 			return false;
 		},
 
