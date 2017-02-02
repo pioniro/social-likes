@@ -575,7 +575,7 @@
 				'width=' + params.width + ',height=' + params.height + ',personalbar=0,toolbar=0,scrollbars=1,resizable=1');
 			if (win) {
 				win.focus();
-				this.widget.trigger('popup_opened.' + prefix, [this.service, win]);
+				this.widget.trigger('popup_opened.' + prefix, [this.service, win, url]);
 				var timer = setInterval($.proxy(function() {
 					if (!win.closed) {
 						return;
