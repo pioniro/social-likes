@@ -205,6 +205,7 @@
 		title: document.title,
 		counters: true,
 		zeroes: false,
+		blank: false,
 		wait: 500,  // Show buttons only after counters are ready or after this amount of time
 		timeout: 10000,  // Show counters after this amount of time even if they aren’t ready
 		popupCheckInterval: 500,
@@ -430,6 +431,11 @@
 			if (data.url) {
 				this.options.url = data.url;
 			}
+
+			// Open blank page
+			if (data.url) {
+				this.options.blank = data.blank;
+			}
 		},
 
 		initHtml: function() {
@@ -534,6 +540,7 @@
 				this.openPopup(url, {
 					width: options.popupWidth,
 					height: options.popupHeight,
+					blank: options.blank
 				});
 			}
 		},
@@ -569,7 +576,7 @@
 				top = Math.round(height / 3 - params.height / 2) + dualScreenTop;
 			}
 
-			var win = window.open(url, 'sl_' + this.service, 'left=' + left + ',top=' + top + ',' +
+			var win = window.open(params.blank?'about:blank':url, 'sl_' + this.service, 'left=' + left + ',top=' + top + ',' +
 				'width=' + params.width + ',height=' + params.height + ',personalbar=0,toolbar=0,scrollbars=1,resizable=1');
 			if (win) {
 				win.focus();
